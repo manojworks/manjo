@@ -4,3 +4,4 @@ go-crawl/go.sum
 go-crawl/internal/path_configs.go
 parsers/parser_configs.py
 .DS_Store
+parsers/__pycache__/parser_configs.cpython-313.pyc
