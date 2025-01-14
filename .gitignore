@@ -6,3 +6,4 @@ parsers/parser_configs.py
 .DS_Store
 parsers/__pycache__/parser_configs.cpython-313.pyc
 /parsers/.idea
+/transliterate/.idea

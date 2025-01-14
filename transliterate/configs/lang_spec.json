@@ -1,0 +1,17 @@
+{
+    "hi": {
+    "name"    : "Hindi - हिंदी",
+    "eng_name": "hindi",
+    "script"  : "hindi/hi_scripts.json",
+    "weight"  : "hindi/hi_v2_model.pth"
+    },
+
+
+    "en": {
+    "name"    : "English",
+    "eng_name": "english",
+    "script"  : "hindi/hi_scripts.json",
+    "weight"  : "hindi/hi_v2_model.pth",
+    "todo"    : "verify and change script and weight"
+    }
+}
