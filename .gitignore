@@ -7,3 +7,5 @@ parsers/parser_configs.py
 parsers/__pycache__/parser_configs.cpython-313.pyc
 /parsers/.idea
 /transliterate/.idea
+client/webapp/.editorconfig
+/client/webapp/.vscode
