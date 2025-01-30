@@ -7,7 +7,7 @@ import { FooterComponent } from './components/footer/footer.component';
   standalone: true,
   imports: [NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'Manjo Music Service';
