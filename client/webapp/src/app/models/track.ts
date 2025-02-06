@@ -9,9 +9,10 @@ export interface TrackItem {
     singers: string;
     writers: string;
     releaseYear: number;
-    description: string;
-}
-
+    lyrics: string;
+  }
+  
+  
 export interface Track {
     id: number;
     title: string;
@@ -19,5 +20,5 @@ export interface Track {
     singers: Singer[];
     writers: Writer[];
     releaseYear: number;
-    description: number;
+    lyrics: string;
 }
