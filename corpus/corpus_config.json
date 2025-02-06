@@ -1,0 +1,9 @@
+{
+    "paths": [
+        {   "EN_HI_PAIRS": "/Users/manojsaxena/manjo-data/all-data-parsed/en-hi-pairs.txt",
+            "ANALYSIS_DEST_PICKLE_EN": "/Users/manojsaxena/manjo-data/analysis/corpus_dict_en.pickle",
+            "ANALYSIS_DEST_PICKLE_HI": "/Users/manojsaxena/manjo-data/analysis/corpus_dict_hi.pickle"
+         }]
+}
+
+
