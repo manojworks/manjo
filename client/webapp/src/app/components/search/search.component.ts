@@ -1,10 +1,12 @@
 import { Component , Output, EventEmitter} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {RouterModule } from '@angular/router';
+import { TrackListComponent } from "../track-list/track-list.component";
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule, TrackListComponent],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })

@@ -1,9 +1,13 @@
 @import "../../../styles.css";
 
 .footer-basic {
-  padding:20px 0;
   background-color:#ffffff;
   color:#4b4c4d;
+  position: fixed;
+  margin-bottom: 0px;
+  position:fixed;
+  bottom:0;
+  width:100%;
 }
 
 .footer-basic ul {
