@@ -13,3 +13,4 @@ client/webapp/.editorconfig
 client/webapp/package-lock.json
 client/webapp/package-lock.json
 client/webapp/package-lock.json
+parsers/csv2db.log
