@@ -1,17 +1,25 @@
 <div class="container">
-    <div class="search-hero">
-        <input  class="form-control" 
-                type="text" 
-                name="search" 
-                [(ngModel)]="searchText" 
-                (ngModelChange)="sendSearchFilterText()"
-                autocomplete="off" 
-                placeholder="&#61442; Search ...">
+    <div id="wrapper">
+        <div id="dropdown-component">
+            <mat-select placeholder="All" panelClass="menu-wrapper">
+              <mat-option *ngFor="let item of trackElems" (click)="clickHandler(item)" [value]="item" >{{ item }}</mat-option>
+            </mat-select>
+        </div>
+
+        <div class="search-hero">
+            <input  class="form-control" 
+                    type="text" 
+                    name="search" 
+                    [(ngModel)]="searchText" 
+                    (ngModelChange)="sendSearchFilterText()"
+                    autocomplete="off" 
+                    placeholder="&#61442; Search ...">
+        </div>
     </div>
     <div>
         <mat-table #table
         [dataSource]="dataSource" multiTemplateDataRows
-        class="mat-elevation-z8">
+        class="mat-el">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
         <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
@@ -30,7 +38,7 @@
             <div class="example-element-composers"> {{element.composers}} </div>
             <div class="example-element-writers"> {{element.writers}} </div>
             </div>
-            <div class="example-element-description">
+            <div class="track-lyrics-details">
             {{element.lyrics}}
             <span class="example-track-lyrics"></span>
             </div>

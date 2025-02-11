@@ -1,13 +1,8 @@
 @import url('./../../../styles.css');
 
-.search-hero {
-    max-width: 1000px;
-    padding-bottom: 50px;
-    margin:auto;
-  }
   
   .form-control {
-    box-shadow: 0 10px 40px 0 #B0C1D9;
+    box-shadow: none;
   }
   .form-control::placeholder  {
     font-family: Poppins;
@@ -16,9 +11,10 @@
   table {
     width: 100%;
   }
-  
+
   tr.example-detail-row {
     height: 0;
+    width: 100%;
   }
   
   tr.example-element-row:not(.example-expanded-row):hover {
@@ -36,30 +32,51 @@
   .example-element-detail {
     overflow: hidden;
     display: flex;
+    width: 100%;
   }
   
   .example-element-diagram {
-    min-width: 80px;
+    /* min-width: 80px; */
     border: 2px solid black;
     padding: 8px;
     font-weight: lighter;
     margin: 8px 0;
     height: 104px;
+    width: 30%;
   }
-  
-  /* if you want  to highlight a cell/column */
-  /* .example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: normal;
-  } */
-  
-  .example-element-description {
+    
+  .track-lyrics-details {
     padding: 16px;
+    width: 70%;
   }
   
-  
-  .example-track-lyrics {
+.example-track-lyrics {
     opacity: 0.5;
   }
   
+  .search-hero {
+    max-width: 80%;
+    margin:none;
+    overflow: hidden; /* if you don't want #second to wrap below #first */
+  }
+
+
+#wrapper {
+  width: 100%;
+  overflow: visible; /* will allow overlay of dropdown */
+  position: relative;
+  padding-bottom: 50px;
+}
+
+#dropdown-component {
+  margin: auto;
+  font: normal 14px sans-serif;
+  width: 10%;
+  position: relative;
+  float:left; /* keeps the dropdown to left of search */
+  border: #0d0c0c 1px solid;
+  height: 2.8em;
+  background-color: aliceblue;
+  text-align: center;
+}
+

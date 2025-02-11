@@ -5,7 +5,7 @@ body {
 }
 
 .container {
-    padding-top: 150px;
+    padding-top: 100px;
     padding-bottom: 10px;
     color: #405065;
   }
@@ -63,4 +63,15 @@ body {
  .shadow-xl {
 	 box-shadow: 0 0.5rem 1rem #000 !important;
 }
- 
+
+
+.menu-wrapper {
+	overflow: hidden;
+	margin-top: 3px;
+	position: absolute;
+	width: 100%;
+	background: aliceblue !important;
+	text-align: center;
+	/* border-radius: 10px !important; */
+  }
+  
