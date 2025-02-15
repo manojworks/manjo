@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 class Tracks(models.Model):
-    title = models.CharField(max_length=1000,blank=True, null=True)
+    title_en = models.CharField(max_length=1000,blank=True, null=True)
     album = models.CharField(max_length=1000,blank=True, null=True)
     release_year = models.IntegerField(blank=True, null=True)
     duration = models.IntegerField(blank=True, null=True)
@@ -14,14 +14,16 @@ class Tracks(models.Model):
     actors = ArrayField(models.CharField(max_length=100, blank=True), null=True, size=10)
     notes = models.TextField(blank=True, null=True)
     lyrics_en = models.TextField(blank=True, null=True)
-    lyrics_hi = models.TextField(blank=True, null=True)  # This field type is a guess.
+    lyrics_hi = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title_en
 
 
 class Meta:
-    #managed = False
     db_table = 'tracks'
     ordering = [
-                'name',
+                'title_en',
                 'album',
                 'category',
                 'singers',
