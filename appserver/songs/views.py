@@ -36,3 +36,12 @@ def search_tracks(request, query_term=None, find_in=None):
 
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#TODO: this is a skeleton impl. find the right logic
+@api_view(['GET'])
+def most_popular_tracks(request, k=10):
+    top_k_ids = [50798, 51624, 55082, 56561, 57529]
+    if request.method == 'GET':
+        qs = Tracks.objects.filter(pk__in=top_k_ids)
+        serializer = TrackSerializer(qs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
