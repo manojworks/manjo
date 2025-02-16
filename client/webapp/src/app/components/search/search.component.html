@@ -8,13 +8,14 @@
 
         <div class="search-hero">
             <input  class="form-control" 
-                    type="text" 
+                    type="search" 
                     name="search" 
                     [(ngModel)]="searchText" 
                     (ngModelChange)="sendSearchFilterText()"
                     autocomplete="off" 
                     placeholder="&#61442; Search ...">
         </div>
+        <button type="submit" class="search-button" (click)="goSearch()">Go</button>
     </div>
     <div>
         <mat-table #table
@@ -33,7 +34,7 @@
         <div class="example-element-detail" 
         [@detailExpand]="isExpanded(element) ? 'expanded' : 'collapsed'">
             <div class="example-element-diagram">
-            <div class="example-element-title"> {{element.title}} </div>
+            <div class="example-element-title_en"> {{element.title_en}} </div>
             <div class="example-element-singers"> {{element.singers}} </div>
             <div class="example-element-composers"> {{element.composers}} </div>
             <div class="example-element-writers"> {{element.writers}} </div>

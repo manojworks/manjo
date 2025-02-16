@@ -39,42 +39,38 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.dataSource = new MatTableDataSource(this.trackService.getElements("1"));
-
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.searchText = params['searchText'];
-      if (!this.searchText) {
-        this.searchText = '';
-      } else {
-        this.getTracks(this.searchText);
-      }
+    // this.dataSource = new MatTableDataSource(this.trackService.popularTracks(10));
+    this.trackService.popularTracks(10).subscribe((data) => {
+      this.dataSource = new MatTableDataSource(data);
     });
+
   }
 
+  //TODO: Do I need this?
   sendSearchFilterText() {
-    this.searchFilterTextEvent.emit(this.searchText);
+    // this.searchFilterTextEvent.emit(this.searchText);
     
-    if (this.searchText) {
-      this.getTracks(this.searchText);
-    }
+    // if (this.searchText) {
+    //   this.getTracks(this.searchText);
+    // }
   }
 
   getTracks(searchText: string) {
     
-    console.log('searchText: ', searchText);
-    this.dataSource = new MatTableDataSource(this.trackService.getElements(searchText));
+    console.log('seadrrrchText: ', searchText);
+    // this.dataSource = new MatTableDataSource(this.trackService.getElements(searchText));
   }
 
-  columnsToDisplay = ['title', 'singers', 'composers',  'writers'];
+    columnsToDisplay = ['title_en', 'singers', 'composers',  'writers'];
     expandedTrack: TrackItem | null = null;
     expandedTracks: TrackItem[] = [];
   
-    public isExpanded(element: { title: string; }) {
-      return this.expandedTracks.find(c => c.title === element.title) ? true : false;
+    public isExpanded(element: { title_en: string; }) {
+      return this.expandedTracks.find(c => c.title_en === element.title_en) ? true : false;
     }
   
-    public hideExpandedElement(element: { title: string; }): void {
-      const index = this.expandedTracks.findIndex(c => c.title === element.title);
+    public hideExpandedElement(element: { title_en: string; }): void {
+      const index = this.expandedTracks.findIndex(c => c.title_en === element.title_en);
       if (index > -1) {
         this.expandedTracks.splice(index, 1);
       }
@@ -90,11 +86,16 @@ export class SearchComponent implements OnInit {
 
     clickHandler(item: string) {
       this.trackAttributeSelectedValue = item;
-      this.searchText = this.trackAttributeSelectedValue;
+      //this.searchText = this.trackAttributeSelectedValue;
       
     }
 
     @HostListener('click') hostClick() {
-      this.searchText = this.trackAttributeSelectedValue;
+      //this.searchText = this.trackAttributeSelectedValue;
+    }
+
+    goSearch() {
+      console.log('searchText: ', this.searchText);
+      console.log('trackAttributeSelectedValue: ', this.trackAttributeSelectedValue);
     }
 }

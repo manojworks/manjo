@@ -27,6 +27,7 @@
   
   .example-element-row td {
     border-bottom-width: 0;
+    width: 100%;
   }
   
   .example-element-detail {
@@ -55,9 +56,10 @@
   }
   
   .search-hero {
-    max-width: 80%;
+    max-width: 100%;
     margin:none;
     overflow: hidden; /* if you don't want #second to wrap below #first */
+
   }
 
 
@@ -80,3 +82,15 @@
   text-align: center;
 }
 
+.search-button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  background-color: rgb(0, 7, 204);
+  border-radius: 0%;
+  border: 0;
+  color: #FFF;
+  width: 35px;
+  height: 35px;
+  outline: 0;
+}
