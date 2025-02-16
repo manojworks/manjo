@@ -39,7 +39,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // this.dataSource = new MatTableDataSource(this.trackService.popularTracks(10));
+    //TODO: change to 10 user configured value
     this.trackService.popularTracks(10).subscribe((data) => {
       this.dataSource = new MatTableDataSource(data);
     });
@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit {
       this.expandedTracks.push(element);
     }
 
-    trackElems: string[] = ['all', 'title', 'singer', 'composer',  'writer', 'lyrics', 'actor'];
+    trackElems: string[] = ['all', 'title_en', 'album', 'categories', 'composers', 'singers', 'writers', 'actors', 'lyrics_en', 'lyrics_hi'];
     trackAttributeSelectedValue: string = this.trackElems[0];
 
 
@@ -97,5 +97,8 @@ export class SearchComponent implements OnInit {
     goSearch() {
       console.log('searchText: ', this.searchText);
       console.log('trackAttributeSelectedValue: ', this.trackAttributeSelectedValue);
+      this.trackService.searchTracks(this.searchText, this.trackAttributeSelectedValue).subscribe((data) => {
+        this.dataSource = new MatTableDataSource(data);
+      });
     }
 }

@@ -20,4 +20,10 @@ export class TrackService {
       `${this.apiControllerUrl}/popular/${topK}`
   );
   }
+
+  searchTracks(searchText: string, findIn: string): Observable<TrackItem[]> {
+    return this.httpClient.get<TrackItem[]>(
+      `${this.apiControllerUrl}/search/${searchText}/${findIn}`
+  );
+  }
 }

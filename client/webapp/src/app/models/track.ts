@@ -5,11 +5,16 @@ import { Writer } from './writer';
 export interface TrackItem {
     id: number;
     title_en: string;
+    album: string;
+    releaseYear: number;
+    duration: number;
+    categories: string;
     composers: string;
     singers: string;
     writers: string;
-    releaseYear: number;
-    lyrics: string;
+    actors: string;
+    lyrics_en: string;
+    lyrics_hi: string;
   }
   
   
