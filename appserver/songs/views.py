@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from django.contrib.postgres.search import SearchVector
+from django.db.models import Func, F
 
 from songs.models import Tracks
 from songs.serializers import TrackSerializer
@@ -11,20 +12,25 @@ from songs.serializers import TrackSerializer
 @api_view(['GET'])
 def search_tracks(request, query_term=None, find_in=None):
     if request.method == 'GET':
+        search = SearchVector('title_en', 'categories', 'composers', 'singers', 'writers', 'actors')
         #TODO: check the status being passed back
         if query_term is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         qs = None
-        if find_in is None:
+        if find_in is None or find_in == 'all':
             #TODO: clean up the search vector compbinable
             #TODO: add more search terms
-            qs = Tracks.objects.annotate(search = SearchVector('title_en', 'categories', 'composers', 'singers', 'writers', 'actors'),).filter(search=query_term)
+            qs = Tracks.objects.annotate(search).filter(search=query_term)
         elif find_in == "title_en":
             qs = Tracks.objects.filter(title_en__search=query_term)
+        elif find_in == "album":
+            qs = Tracks.objects.filter(album__search=query_term)
         #TODO: support other criteria
         elif find_in == "categories":
-            pass
+            qs = Tracks.objects.annotate(arr_sing=Func(F('categories'), function='unnest')).annotate(search=search).filter(search=query_term)
+        elif find_in == "singer":
+            qs = Tracks.objects.annotate(arr_sing=Func(F('singers'), function='unnest')).annotate(search=search).filter(search=query_term)
         else:
             #TODO: what do we do here
             pass
