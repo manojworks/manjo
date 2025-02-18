@@ -12,6 +12,8 @@ from songs.serializers import TrackSerializer
 @api_view(['GET'])
 def search_tracks(request, query_term=None, find_in=None):
     if request.method == 'GET':
+        print(query_term)
+        print(find_in)
         search = SearchVector('title_en', 'categories', 'composers', 'singers', 'writers', 'actors')
         #TODO: check the status being passed back
         if query_term is None:
@@ -31,6 +33,8 @@ def search_tracks(request, query_term=None, find_in=None):
         # TODO: handle search in hi lyrics
         elif find_in == "lyrics_hi":
             pass
+        elif find_in == "all":
+            qs = Tracks.objects.annotate(search).filter(search=query_term)
         else:
             # TODO: clean up the search vector compbinable
             # TODO: add more search terms

@@ -2,7 +2,7 @@
     <div id="wrapper">
         <div id="dropdown-component">
             <mat-select placeholder="All" panelClass="menu-wrapper">
-              <mat-option *ngFor="let item of trackElems" (click)="clickHandler(item)" [value]="item" >{{ item }}</mat-option>
+              <mat-option *ngFor="let item of trackElems" (click)="clickHandler(item)" [value]="item" >{{ item.display }}</mat-option>
             </mat-select>
         </div>
 
@@ -34,13 +34,17 @@
         <div class="example-element-detail" 
         [@detailExpand]="isExpanded(element) ? 'expanded' : 'collapsed'">
             <div class="example-element-diagram">
-            <div class="example-element-title_en"> {{element.title_en}} </div>
+            <!-- <div class="example-element-title_en"> {{element.title_en}} </div>
             <div class="example-element-singers"> {{element.singers}} </div>
             <div class="example-element-composers"> {{element.composers}} </div>
-            <div class="example-element-writers"> {{element.writers}} </div>
+            <div class="example-element-writers"> {{element.writers}} </div> -->
+            <div class="example-element-categories">Categories: {{element.categories}} </div>
+            <div class="example-element-releaseYear">Release: {{element.releaseYear}} </div>
+            <div class="example-element-duration">Duration: {{element.duration}} </div>
+            <div class="example-element-actors">Actors: {{element.actors}} </div>
             </div>
             <div class="track-lyrics-details">
-            {{element.lyrics}}
+            {{element.lyrics_en}}
             <span class="example-track-lyrics"></span>
             </div>
         </div>

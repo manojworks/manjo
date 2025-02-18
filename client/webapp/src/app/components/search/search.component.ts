@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import {RouterModule } from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatTableDataSource, MatTableModule, MatTable} from '@angular/material/table';
-import { MatFormField } from '@angular/material/form-field';
+import { SongDropDownAttributes } from '../../models/songdropdownattributes';
 import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
@@ -25,6 +25,9 @@ import { TrackItem } from '../../models/track';
       ]),
     ],
 })
+
+
+
 export class SearchComponent implements OnInit {
 
   searchText = '';
@@ -61,14 +64,16 @@ export class SearchComponent implements OnInit {
     // this.dataSource = new MatTableDataSource(this.trackService.getElements(searchText));
   }
 
-    columnsToDisplay = ['title_en', 'singers', 'composers',  'writers'];
+    columnsToDisplay = ['title_en', 'album', 'singers', 'composers',  'writers'];
     expandedTrack: TrackItem | null = null;
     expandedTracks: TrackItem[] = [];
   
+    //TODO: comparison with title to expand/collapse is a problem. consider using id
     public isExpanded(element: { title_en: string; }) {
       return this.expandedTracks.find(c => c.title_en === element.title_en) ? true : false;
     }
   
+    //TODO: comparison with title to expand/collapse is a problem. consider using id
     public hideExpandedElement(element: { title_en: string; }): void {
       const index = this.expandedTracks.findIndex(c => c.title_en === element.title_en);
       if (index > -1) {
@@ -80,11 +85,20 @@ export class SearchComponent implements OnInit {
       this.expandedTracks.push(element);
     }
 
-    trackElems: string[] = ['all', 'title_en', 'album', 'categories', 'composers', 'singers', 'writers', 'actors', 'lyrics_en', 'lyrics_hi'];
-    trackAttributeSelectedValue: string = this.trackElems[0];
+    trackElems: SongDropDownAttributes[] = [ {"id": 'all', display: 'All'}, 
+                                                    {"id": 'title_en', display: 'Title'}, 
+                                                    {"id": 'album', display: 'Album'}, 
+                                                    {"id": 'categories', display: 'Category'}, 
+                                                    {"id": 'composers', display: 'Composer'}, 
+                                                    {"id": 'singers', display: 'Singer'}, 
+                                                    {"id": 'writers', display: 'Writer'}, 
+                                                    {"id": 'actors', display: 'Actor'}, 
+                                                    {"id": 'lyrics_en', display: 'Lyrics'}, 
+                                                    {"id": 'lyrics_hi', display: 'बोल'}];
+    trackAttributeSelectedValue: {id: string, display: string} = this.trackElems[0];
 
 
-    clickHandler(item: string) {
+    clickHandler(item: SongDropDownAttributes) {
       this.trackAttributeSelectedValue = item;
       //this.searchText = this.trackAttributeSelectedValue;
       
@@ -97,7 +111,7 @@ export class SearchComponent implements OnInit {
     goSearch() {
       console.log('searchText: ', this.searchText);
       console.log('trackAttributeSelectedValue: ', this.trackAttributeSelectedValue);
-      this.trackService.searchTracks(this.searchText, this.trackAttributeSelectedValue).subscribe((data) => {
+      this.trackService.searchTracks(this.searchText, this.trackAttributeSelectedValue.id).subscribe((data) => {
         this.dataSource = new MatTableDataSource(data);
       });
     }

@@ -22,6 +22,9 @@ export class TrackService {
   }
 
   searchTracks(searchText: string, findIn: string): Observable<TrackItem[]> {
+    if (searchText === '' || searchText === null || findIn === '' || findIn === null) {
+      return this.popularTracks(10);
+    }
     return this.httpClient.get<TrackItem[]>(
       `${this.apiControllerUrl}/search/${searchText}/${findIn}`
   );
