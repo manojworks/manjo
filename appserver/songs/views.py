@@ -18,22 +18,24 @@ def search_tracks(request, query_term=None, find_in=None):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         qs = None
-        if find_in is None or find_in == 'all':
-            #TODO: clean up the search vector compbinable
-            #TODO: add more search terms
-            qs = Tracks.objects.annotate(search).filter(search=query_term)
-        elif find_in == "title_en":
+
+        if find_in == "title_en":
             qs = Tracks.objects.filter(title_en__search=query_term)
         elif find_in == "album":
             qs = Tracks.objects.filter(album__search=query_term)
-        #TODO: support other criteria
-        elif find_in == "categories":
-            qs = Tracks.objects.annotate(arr_sing=Func(F('categories'), function='unnest')).annotate(search=search).filter(search=query_term)
-        elif find_in == "singer":
-            qs = Tracks.objects.annotate(arr_sing=Func(F('singers'), function='unnest')).annotate(search=search).filter(search=query_term)
-        else:
-            #TODO: what do we do here
+        elif find_in in ("categories", 'composers', 'singers', 'writers', 'actors'):
+            qs = Tracks.objects.annotate(arr_sing=Func(F(find_in), function='unnest')).annotate(search=search).filter(search=query_term)
+        #TODO: handle search in en lyrics
+        elif find_in == "lyrics_en":
             pass
+        # TODO: handle search in hi lyrics
+        elif find_in == "lyrics_hi":
+            pass
+        else:
+            # TODO: clean up the search vector compbinable
+            # TODO: add more search terms
+            # qs = Tracks.objects.annotate(search).filter(search=query_term)
+            qs = generate_test_queryset()
 
 
         serializer = TrackSerializer(qs, many=True)
@@ -48,6 +50,13 @@ def search_tracks(request, query_term=None, find_in=None):
 def most_popular_tracks(request, k=10):
     top_k_ids = [50798, 51624, 55082, 56561, 57529]
     if request.method == 'GET':
-        qs = Tracks.objects.filter(pk__in=top_k_ids)
+        #TODO: Replace this when ready
+        # qs = Tracks.objects.filter(pk__in=top_k_ids)
+        qs = generate_test_queryset()
         serializer = TrackSerializer(qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+def generate_test_queryset():
+    test_ids = [-1, -2, -3]
+    qs = Tracks.objects.filter(id__in=test_ids)
+    return qs

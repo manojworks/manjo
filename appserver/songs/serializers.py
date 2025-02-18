@@ -16,10 +16,15 @@ class TrackSerializer(serializers.ModelSerializer):
             'singers': instance.singers,
             'composers': instance.composers,
             'writers': instance.writers,
-            'album': instance.album
+            'categories': instance.categories,
+            'album': instance.album,
+            'release_year': instance.release_year,
+            'duration': instance.duration,
+            'actors': instance.actors,
+            'lyrics_en': instance.lyrics_en,
         }
 
     class Meta:
         model = Tracks
 
-        fields = ['id', 'title_en', 'singers', 'composers', 'writers', 'album']
+        fields = ['id', 'title_en', 'singers', 'composers', 'writers', 'album', 'categories', 'release_year', 'duration', 'actors', 'lyrics_en']
