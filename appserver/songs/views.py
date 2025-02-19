@@ -14,9 +14,9 @@ def search_tracks(request, query_term=None, find_in=None):
     if request.method == 'GET':
         print(query_term)
         print(find_in)
-        search = SearchVector('title_en', 'categories', 'composers', 'singers', 'writers', 'actors')
-        #TODO: check the status being passed back
-        if query_term is None:
+        search = SearchVector('title_en', 'album', 'categories', 'composers', 'singers', 'writers', 'actors', 'lyrics_en', 'lyrics_hi')
+        #TODO: send back relevant status
+        if query_term is None or find_in is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         qs = None
@@ -34,12 +34,10 @@ def search_tracks(request, query_term=None, find_in=None):
         elif find_in == "lyrics_hi":
             pass
         elif find_in == "all":
-            qs = Tracks.objects.annotate(search).filter(search=query_term)
+            qs = Tracks.objects.annotate(search=search).filter(search=query_term)
+            # if none of the filter is applicable, return most popular tracks
         else:
-            # TODO: clean up the search vector compbinable
-            # TODO: add more search terms
-            # qs = Tracks.objects.annotate(search).filter(search=query_term)
-            qs = generate_test_queryset()
+            return most_popular_tracks(request)
 
 
         serializer = TrackSerializer(qs, many=True)

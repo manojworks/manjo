@@ -1,4 +1,4 @@
-import { Component , OnInit, Output, EventEmitter, ElementRef, HostListener, ViewChild} from '@angular/core';
+import { Component , OnInit, Output, EventEmitter, ElementRef, HostListener, ViewChild, output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {RouterModule } from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -33,7 +33,8 @@ export class SearchComponent implements OnInit {
   searchText = '';
   dataSource = new MatTableDataSource<TrackItem>();
 
-  @Output() searchFilterTextEvent = new EventEmitter<string>();
+  // @Output() searchFilterTextEvent = new EventEmitter<string>();
+  searchFilterTextEvent = output<string>();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -95,6 +96,7 @@ export class SearchComponent implements OnInit {
                                                     {"id": 'actors', display: 'Actor'}, 
                                                     {"id": 'lyrics_en', display: 'Lyrics'}, 
                                                     {"id": 'lyrics_hi', display: 'बोल'}];
+                                                    
     trackAttributeSelectedValue: {id: string, display: string} = this.trackElems[0];
 
 
