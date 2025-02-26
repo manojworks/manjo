@@ -16,3 +16,4 @@ client/webapp/package-lock.json
 parsers/csv2db.log
 *.pyc
 /appserver/.idea
+parsers/titles.log
