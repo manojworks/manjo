@@ -15,7 +15,7 @@
                     autocomplete="off" 
                     placeholder="&#61442; Search ...">
         </div>
-        <button type="submit" class="search-button" (click)="goSearch()">Go</button>
+        <button type="submit" class="search-button" (click)="goSearch(0, 10)">Go</button>
     </div>
     <div>
         <mat-table #table
@@ -58,6 +58,14 @@
                 (click)="isExpanded(element) ? hideExpandedElement(element) : showExpandedElement(element)">
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    
     </mat-table>
+    <mat-paginator 
+    #paginator
+    [pageSizeOptions]="[10, 20, 40, 60]" 
+  [length]="totalRecords"
+  (page)="onPaginateChange($event)"
+  [pageSize]="pageSize"
+  showFirstLastButtons></mat-paginator>
 </div>
 </div>

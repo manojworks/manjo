@@ -1,8 +1,8 @@
-import { Component , OnInit, Output, EventEmitter, ElementRef, HostListener, ViewChild, output} from '@angular/core';
+import { Component , OnInit, AfterViewInit, HostListener, ViewChild, output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {RouterModule } from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import { MatTableDataSource, MatTableModule, MatTable} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { SongDropDownAttributes } from '../../models/songdropdownattributes';
 import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
@@ -10,11 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 import { TrackService } from '../../services/track.service';
 import { CommonModule } from '@angular/common'
 import { TrackItem } from '../../models/track';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [FormsModule, RouterModule, MatTableModule, CommonModule, MatSelectModule, MatOptionModule, ],
+  imports: [FormsModule, RouterModule, MatTableModule, CommonModule, MatSelectModule, MatOptionModule, MatPaginator],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
   animations: [
@@ -28,41 +29,47 @@ import { TrackItem } from '../../models/track';
 
 
 
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
 
+  totalRecords: number = 0;
+  pageSize: number = 10;
   searchText = '';
   dataSource = new MatTableDataSource<TrackItem>();
 
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
+  
   // @Output() searchFilterTextEvent = new EventEmitter<string>();
   searchFilterTextEvent = output<string>();
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private trackService: TrackService,
+    
   ) {}
 
   ngOnInit(): void {
 
+    
     //TODO: change to 10 user configured value
     this.trackService.popularTracks(10).subscribe((data) => {
       this.dataSource = new MatTableDataSource(data);
+      this.totalRecords = this.dataSource.data.length;
+      
     });
 
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
   //TODO: Do I need this?
   sendSearchFilterText() {
-    // this.searchFilterTextEvent.emit(this.searchText);
-    
-    // if (this.searchText) {
-    //   this.getTracks(this.searchText);
-    // }
+
   }
 
   getTracks(searchText: string) {
-    
     console.log('seadrrrchText: ', searchText);
-    // this.dataSource = new MatTableDataSource(this.trackService.getElements(searchText));
   }
 
     columnsToDisplay = ['title_en', 'album', 'singers', 'composers',  'writers'];
@@ -102,19 +109,38 @@ export class SearchComponent implements OnInit {
 
     clickHandler(item: SongDropDownAttributes) {
       this.trackAttributeSelectedValue = item;
-      //this.searchText = this.trackAttributeSelectedValue;
-      
     }
 
     @HostListener('click') hostClick() {
-      //this.searchText = this.trackAttributeSelectedValue;
+
     }
 
-    goSearch() {
-      console.log('searchText: ', this.searchText);
-      console.log('trackAttributeSelectedValue: ', this.trackAttributeSelectedValue);
-      this.trackService.searchTracks(this.searchText, this.trackAttributeSelectedValue.id).subscribe((data) => {
-        this.dataSource = new MatTableDataSource(data);
+    goSearch(offset: number, pageSize: number) {
+      this.searchText = "balma"
+      // console.log('searchText: ', this.searchText);
+      this.trackService.searchTracks(this.searchText, this.trackAttributeSelectedValue.id, offset, pageSize).subscribe((data) => {
+        // console.log('data: ', data);
+        const dataMp = new Map(Object.entries(data));
+        // console.log('dataMp: ', dataMp.get('results'));
+        // console.log('type of data: ', typeof dataMp.get('results'));
+        let apiRes = dataMp.get('results');
+        this.dataSource = new MatTableDataSource(apiRes);
+        this.totalRecords = dataMp.get('count');
+        // console.log('totalRecords: ', this.totalRecords);
       });
+    }
+
+    onPaginateChange(event: any) {
+      // console.log('event: ', event);
+      let offset = Math.ceil(this.totalRecords / this.pageSize) - 1;
+      // console.log('offset ' , offset);
+      let dataSeenSoFar = event.pageIndex * this.pageSize;
+      // console.log('data seen so far : ', dataSeenSoFar);
+      // console.log('totalRecords: ', this.totalRecords);
+      if (dataSeenSoFar >= this.totalRecords) {
+        this.goSearch(0, this.pageSize);
+      } else {
+        this.goSearch(dataSeenSoFar, this.pageSize);
+      }
     }
 }
