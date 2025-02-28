@@ -1,5 +1,5 @@
-from django.http import HttpResponse
 from rest_framework import status
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -8,12 +8,13 @@ from django.db.models import Func, F
 
 from songs.models import Tracks
 from songs.serializers import TrackSerializer
+from utils.custom_pagination import CustomPagination
 
 @api_view(['GET'])
 def search_tracks(request, query_term=None, find_in=None):
     if request.method == 'GET':
-        print(query_term)
-        print(find_in)
+        # print(query_term)
+        # print(find_in)
         search = SearchVector('title_en', 'album', 'categories', 'composers', 'singers', 'writers', 'actors', 'lyrics_en', 'lyrics_hi')
         #TODO: send back relevant status
         if query_term is None or find_in is None:
@@ -29,7 +30,7 @@ def search_tracks(request, query_term=None, find_in=None):
             qs = Tracks.objects.annotate(arr_sing=Func(F(find_in), function='unnest')).annotate(search=search).filter(search=query_term)
         #TODO: handle search in en lyrics
         elif find_in == "lyrics_en":
-            pass
+            qs = Tracks.objects.filter(lyrics_en__search=query_term)
         # TODO: handle search in hi lyrics
         elif find_in == "lyrics_hi":
             pass
@@ -39,13 +40,14 @@ def search_tracks(request, query_term=None, find_in=None):
         else:
             return most_popular_tracks(request)
 
+        paginator = CustomPagination()
+        result_page = paginator.paginate_queryset(qs, request)
+        result_serialized = TrackSerializer(result_page, many=True)
 
-        serializer = TrackSerializer(qs, many=True)
-        print(serializer.data)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return paginator.get_paginated_response(result_serialized.data)
 
 
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    #return Response(status=status.HTTP_400_BAD_REQUEST)
 
 #TODO: this is a skeleton impl. find the right logic
 @api_view(['GET'])
@@ -62,3 +64,5 @@ def generate_test_queryset():
     test_ids = [-1, -2, -3]
     qs = Tracks.objects.filter(id__in=test_ids)
     return qs
+
+
