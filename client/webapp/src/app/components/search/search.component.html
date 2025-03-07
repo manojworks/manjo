@@ -52,8 +52,9 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay; let row; let even = even;"
         class="example-element-row"
+       
         [class.example-expanded-row]="expandedTrack === element"
                 (click)="isExpanded(element) ? hideExpandedElement(element) : showExpandedElement(element)">
     </tr>
