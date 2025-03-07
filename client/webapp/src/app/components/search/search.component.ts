@@ -131,12 +131,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
 
     onPaginateChange(event: any) {
-      // console.log('event: ', event);
+      console.log('event: ', event);
+      this.pageSize = event.pageSize;
       let offset = Math.ceil(this.totalRecords / this.pageSize) - 1;
-      // console.log('offset ' , offset);
+      console.log('offset ' , offset);
       let dataSeenSoFar = event.pageIndex * this.pageSize;
-      // console.log('data seen so far : ', dataSeenSoFar);
-      // console.log('totalRecords: ', this.totalRecords);
+      console.log('data seen so far : ', dataSeenSoFar);
+      console.log('totalRecords: ', this.totalRecords);
       if (dataSeenSoFar >= this.totalRecords) {
         this.goSearch(0, this.pageSize);
       } else {
